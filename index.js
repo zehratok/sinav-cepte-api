@@ -75,6 +75,27 @@ app.post('/not-ekle', (req, res) => {
             }
         })
 })
+app.post('/gorev-ekle', (req, res) => {
+    const { kullanici_id, baslik, icerik, tarih } = req.body;
+    req.body.tarih = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    console.log(req.body);
+    connection.query(
+        `INSERT INTO gorevlerim (kullanici_id, baslik, icerik, tarih) VALUES ('${kullanici_id}' , '${baslik}' , '${icerik}' , '${tarih}' );`
+        , (error, results, fields) => {
+            if (error) {
+                res.send({
+                    "mesaj": "Hata"
+                })
+            } else {
+                let result = {};
+                result = {
+                    "mesaj": "Kayit işlemi başarılı",
+                    ...req.body
+                }
+                res.send(result);
+            }
+        })
+})
 
 
 app.listen(3001, () => {
