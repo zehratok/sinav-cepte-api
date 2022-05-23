@@ -19,9 +19,7 @@ app.post('/kaydol', (req, res) => {
                     ...req.body
                 }
                 res.send(result);
-
             }
-
         })
 })
 app.post('/giris-yap', (req, res) => {
@@ -33,14 +31,13 @@ app.post('/giris-yap', (req, res) => {
                 console.log(error)
                 console.log(results)
                 if (error) {
-                    console.log(error)
+                    console.log(error);
                 } else {
                     if (results.length > 0) {
                         const user = {
                             "id": results[0].id,
                             "adSoyad": results[0].adSoyad,
-                            "email": results[0].email,
-                          
+                            "email": results[0].mail,
                         }
                         const access_token = jwt.sign(user, "alaska", { expiresIn: '200d' })
                         res.send({ access_token, ...user });
@@ -49,7 +46,6 @@ app.post('/giris-yap', (req, res) => {
                     }
                 }
             })
-
     } catch (hata) {
         res.send(hata);
     }
@@ -60,6 +56,26 @@ app.get('/kullanicilar', (req, res) => {
         res.send(results);
     })
 })
+app.post('/not-ekle', (req, res) => {
+    const { kullanici_id, baslik, icerik } = req.body;
+    connection.query(
+        `INSERT INTO notlarim (kullanici_id, baslik, icerik) VALUES ('${kullanici_id}' , '${baslik}' , '${icerik}');`
+        , (error, results, fields) => {
+            if (error) {
+                res.send({
+                    "mesaj": "Hata"
+                })
+            } else {
+                let result = {};
+                result = {
+                    "mesaj": "Kayit işlemi başarılı",
+                    ...req.body
+                }
+                res.send(result);
+            }
+        })
+})
+
 
 app.listen(3001, () => {
     console.log('Runing on 3001');
