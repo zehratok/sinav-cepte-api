@@ -103,6 +103,13 @@ app.get('/notlarim/:kullanici_id', (req, res) => {
         res.send(results);
     })
 })
+app.get('/gorevlerim/:kullanici_id', (req, res) => {
+    console.log(req.params.kullanici_id)
+    connection.query("SELECT * FROM gorevlerim WHERE kullanici_id=" + "'" + req.params.kullanici_id + "'", (error, results, fields) => {
+        if (error) throw error;
+        res.send(results);
+    })
+})
 app.listen(3001, () => {
     console.log('Runing on 3001');
 });
