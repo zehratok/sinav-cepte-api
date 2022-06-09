@@ -157,6 +157,27 @@ app.post('/mesaj-msu', (req, res) => {
             }
         })
 })
+app.post('/mesaj-dgs', (req, res) => {
+    const { kullanici_id, kullanici_adi, icerik, zaman } = req.body;
+    
+    console.log(req.body.zaman);
+    connection.query(
+        `INSERT INTO sohbet_dgs (kullanici_id, kullanici_adi, icerik, zaman) VALUES ('${kullanici_id}' , '${kullanici_adi}' , '${icerik}' , '${zaman}');`
+        , (error, results, fields) => {
+            if (error) {
+                res.send({
+                    "mesaj": "Hata"
+                })
+            } else {
+                let result = {};
+                result = {
+                    "mesaj": "Mesaj gönderildi",
+                    ...req.body
+                }
+                res.send(result);
+            }
+        })
+})
 app.get('/notlarim/:kullanici_id', (req, res) => {
     console.log(req.params.kullanici_id)
     connection.query("SELECT * FROM notlarim WHERE kullanici_id=" + "'" + req.params.kullanici_id + "'", (error, results, fields) => {
@@ -185,6 +206,12 @@ app.get('/sohbet-lgs', (req, res) => {
 })
 app.get('/sohbet-msu', (req, res) => {
     connection.query('SELECT * from sohbet_msu', (error, results, fields) => {
+        if (error) throw error;
+        res.send(results);
+    })
+})
+app.get('/sohbet-dgs', (req, res) => {
+    connection.query('SELECT * from sohbet_dgs', (error, results, fields) => {
         if (error) throw error;
         res.send(results);
     })
