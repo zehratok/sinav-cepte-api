@@ -179,14 +179,14 @@ app.post('/mesaj-dgs', (req, res) => {
         })
 })
 app.get('/notlarim/:kullanici_id', (req, res) => {
-    console.log(req.params.kullanici_id)
+   // console.log(req.params.kullanici_id)
     connection.query("SELECT * FROM notlarim WHERE kullanici_id=" + "'" + req.params.kullanici_id + "'", (error, results, fields) => {
         if (error) throw error;
         res.send(results);
     })
 })
 app.get('/gorevlerim/:kullanici_id', (req, res) => {
-    console.log(req.params.kullanici_id)
+   // console.log(req.params.kullanici_id)
     connection.query("SELECT * FROM gorevlerim WHERE kullanici_id=" + "'" + req.params.kullanici_id + "'", (error, results, fields) => {
         if (error) throw error;
         res.send(results);
