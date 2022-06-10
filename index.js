@@ -222,6 +222,13 @@ app.get('/sorular/:sinav', (req, res) => {
         res.send(results);
     })
 })
+app.get('/cevaplar/:soru_id', (req, res) => {
+    // console.log(req.params.kullanici_id)
+     connection.query("SELECT * FROM cevaplar WHERE soru_id=" + "'" + req.params.soru_id + "'", (error, results, fields) => {
+         if (error) throw error;
+         res.send(results);
+     })
+ })
 app.listen(3001, () => {
     console.log('Runing on 3001');
 });
