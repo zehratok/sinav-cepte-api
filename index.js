@@ -2,7 +2,6 @@ const req = require('express/lib/request');
 const { app, connection } = require('./init');
 const jwt = require('jsonwebtoken');
 const middleware = require('./middleware');
-
 app.post('/kaydol', (req, res) => {
     const { adSoyad, mail, parola } = req.body;
     connection.query(
@@ -212,6 +211,13 @@ app.get('/sohbet-msu', (req, res) => {
 })
 app.get('/sohbet-dgs', (req, res) => {
     connection.query('SELECT * from sohbet_dgs', (error, results, fields) => {
+        if (error) throw error;
+        res.send(results);
+    })
+})
+app.get('/sorular/:sinav', (req, res) => {
+   // console.log(req.params.sinav)
+    connection.query("SELECT * FROM sorular WHERE sinav=" + "'" + req.params.sinav + "'", (error, results, fields) => {
         if (error) throw error;
         res.send(results);
     })
