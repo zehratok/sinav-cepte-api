@@ -280,6 +280,12 @@ app.get('/sorular/:sinav/:ders', (req, res) => {
         res.send(results);
     })
 })
+app.delete('/notlarim/:id', (req, res) => {
+    connection.query("DELETE FROM notlarim WHERE id=" + "'" + req.params.id + "'", (error, results, fields) => {
+        if (error) throw error;
+        res.send(results);
+    })
+})
 app.listen(3001, () => {
     console.log('Runing on 3001');
 });
