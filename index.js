@@ -117,6 +117,28 @@ app.post('/soru-paylas', (req, res) => {
             }
         })
 })
+app.post('/cevapla', (req, res) => {
+    const { soru_id, kullanici_id, kullanici_adi, resim, icerik, tarih } = req.body;
+    req.body.tarih = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    console.log(req.body);
+    connection.query(
+        `INSERT INTO cevaplar (soru_id, kullanici_id, kullanici_adi,  resim,  icerik, tarih) VALUES
+         ('${soru_id}' , '${kullanici_id}' , '${kullanici_adi}' , '${resim}' ,'${icerik}' , '${tarih}' );`
+        , (error, results, fields) => {
+            if (error) {
+                res.send({
+                    "mesaj": "Hata"
+                })
+            } else {
+                let result = {};
+                result = {
+                    "mesaj": "Kayit işlemi başarılı",
+                    ...req.body
+                }
+                res.send(result);
+            }
+        })
+})
 app.post('/mesaj-yks', (req, res) => {
     const { kullanici_id, kullanici_adi, icerik, zaman } = req.body;
     console.log(req.body.zaman);
