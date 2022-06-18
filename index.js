@@ -117,7 +117,7 @@ app.post('/mesaj-yks', (req, res) => {
 })
 app.post('/mesaj-lgs', (req, res) => {
     const { kullanici_id, kullanici_adi, icerik, zaman } = req.body;
-    
+
     console.log(req.body.zaman);
     connection.query(
         `INSERT INTO sohbet_lgs (kullanici_id, kullanici_adi, icerik, zaman) VALUES ('${kullanici_id}' , '${kullanici_adi}' , '${icerik}' , '${zaman}');`
@@ -158,7 +158,7 @@ app.post('/mesaj-msu', (req, res) => {
 })
 app.post('/mesaj-dgs', (req, res) => {
     const { kullanici_id, kullanici_adi, icerik, zaman } = req.body;
-    
+
     console.log(req.body.zaman);
     connection.query(
         `INSERT INTO sohbet_dgs (kullanici_id, kullanici_adi, icerik, zaman) VALUES ('${kullanici_id}' , '${kullanici_adi}' , '${icerik}' , '${zaman}');`
@@ -178,14 +178,14 @@ app.post('/mesaj-dgs', (req, res) => {
         })
 })
 app.get('/notlarim/:kullanici_id', (req, res) => {
-   // console.log(req.params.kullanici_id)
+    // console.log(req.params.kullanici_id)
     connection.query("SELECT * FROM notlarim WHERE kullanici_id=" + "'" + req.params.kullanici_id + "'", (error, results, fields) => {
         if (error) throw error;
         res.send(results);
     })
 })
 app.get('/gorevlerim/:kullanici_id', (req, res) => {
-   // console.log(req.params.kullanici_id)
+    // console.log(req.params.kullanici_id)
     connection.query("SELECT * FROM gorevlerim WHERE kullanici_id=" + "'" + req.params.kullanici_id + "'", (error, results, fields) => {
         if (error) throw error;
         res.send(results);
@@ -216,7 +216,7 @@ app.get('/sohbet-dgs', (req, res) => {
     })
 })
 app.get('/sorular/:sinav', (req, res) => {
-   // console.log(req.params.sinav)
+    // console.log(req.params.sinav)
     connection.query("SELECT * FROM sorular WHERE sinav=" + "'" + req.params.sinav + "'", (error, results, fields) => {
         if (error) throw error;
         res.send(results);
@@ -224,11 +224,18 @@ app.get('/sorular/:sinav', (req, res) => {
 })
 app.get('/cevaplar/:soru_id', (req, res) => {
     // console.log(req.params.kullanici_id)
-     connection.query("SELECT * FROM cevaplar WHERE soru_id=" + "'" + req.params.soru_id + "'", (error, results, fields) => {
-         if (error) throw error;
-         res.send(results);
-     })
- })
+    connection.query("SELECT * FROM cevaplar WHERE soru_id=" + "'" + req.params.soru_id + "'", (error, results, fields) => {
+        if (error) throw error;
+        res.send(results);
+    })
+})
+app.get('/sorular/:sinav/:ders', (req, res) => {
+    // console.log(req.params.sinav)
+    connection.query("SELECT * FROM sorular WHERE sinav=" + "'" + req.params.sinav + "' AND" + " ders=" + "'" + req.params.ders + "'", (error, results, fields) => {
+        if (error) throw error;
+        res.send(results);
+    })
+})
 app.listen(3001, () => {
     console.log('Runing on 3001');
 });
