@@ -292,6 +292,25 @@ app.delete('/gorevlerim/:id', (req, res) => {
         res.send(results);
     })
 })
+app.put('/not-guncelle/:id', (req, res) => {
+    const { id, kullanici_id, baslik, icerik } = req.body;
+    connection.query(
+        "UPDATE notlarim SET  id= '" + `${id}` + "', kullanici_id='" + `${kullanici_id}` + "', baslik='" + `${baslik}` + "', icerik='" + `${icerik}` + "' WHERE id='" + req.params.id + "'"
+        , (error, results, fields) => {
+            if (error) {
+                res.send({
+                    "mesaj": "Hata"
+                })
+            } else {
+                let result = {};
+                result = {
+                    "mesaj": "Güncelleme işlemi başarılı",
+                    ...req.body
+                }
+                res.send(result);
+            }
+        })
+})
 app.listen(3001, () => {
     console.log('Runing on 3001');
 });
