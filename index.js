@@ -37,6 +37,7 @@ app.post('/giris-yap', (req, res) => {
                             "id": results[0].id,
                             "adSoyad": results[0].adSoyad,
                             "email": results[0].mail,
+                            "parola":results[0].parola
                         }
                         const access_token = jwt.sign(user, "alaska", { expiresIn: '200d' })
                         res.send({ access_token, ...user });
@@ -325,6 +326,25 @@ app.put('/gorev-guncelle/:id', (req, res) => {
                 let result = {};
                 result = {
                     "mesaj": "Güncelleme işlemi başarılı",
+                    ...req.body
+                }
+                res.send(result);
+            }
+        })
+})
+app.put('/kullanici-guncelle/:id', (req, res) => {
+    const { id, adSoyad, mail, parola } = req.body;
+    connection.query(
+        "UPDATE kullanici SET  id= '" + `${id}` + "', adSoyad='" + `${adSoyad}` + "', mail='" + `${mail}` + "', parola='" + `${parola}` + "' WHERE id='" + req.params.id + "'"
+        , (error, results, fields) => {
+            if (results == undefined) {
+                res.send({
+                    "mesaj": "Çift kayıt hatası"
+                })
+            } else {
+                let result = {};
+                result = {
+                    "mesaj": "Kayit işlemi başarılı",
                     ...req.body
                 }
                 res.send(result);
