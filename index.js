@@ -311,6 +311,26 @@ app.put('/not-guncelle/:id', (req, res) => {
             }
         })
 })
+app.put('/gorev-guncelle/:id', (req, res) => {
+    const { id, kullanici_id, baslik, icerik, tarih } = req.body;
+    req.body.tarih = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    connection.query(
+        "UPDATE gorevlerim SET  id= '" + `${id}` + "', kullanici_id='" + `${kullanici_id}` + "', baslik='" + `${baslik}` + "', icerik='" + `${icerik}` + "', tarih='" + `${tarih}` + "' WHERE id='" + req.params.id + "'"
+        , (error, results, fields) => {
+            if (error) {
+                res.send({
+                    "mesaj": "Hata"
+                })
+            } else {
+                let result = {};
+                result = {
+                    "mesaj": "Güncelleme işlemi başarılı",
+                    ...req.body
+                }
+                res.send(result);
+            }
+        })
+})
 app.listen(3001, () => {
     console.log('Runing on 3001');
 });
