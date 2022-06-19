@@ -37,7 +37,7 @@ app.post('/giris-yap', (req, res) => {
                             "id": results[0].id,
                             "adSoyad": results[0].adSoyad,
                             "email": results[0].mail,
-                            "parola":results[0].parola
+                            "parola": results[0].parola
                         }
                         const access_token = jwt.sign(user, "alaska", { expiresIn: '200d' })
                         res.send({ access_token, ...user });
@@ -52,6 +52,12 @@ app.post('/giris-yap', (req, res) => {
 })
 app.get('/kullanicilar', (req, res) => {
     connection.query('SELECT * from kullanici', (error, results, fields) => {
+        if (error) throw error;
+        res.send(results);
+    })
+})
+app.get('/kullanicilar/:id', (req, res) => {
+    connection.query("SELECT * FROM kullanici WHERE id=" + "'" + req.params.id + "'", (error, results, fields) => {
         if (error) throw error;
         res.send(results);
     })
