@@ -299,6 +299,30 @@ app.delete('/gorevlerim/:id', (req, res) => {
         res.send(results);
     })
 })
+app.delete('/mesaj-lgs/:id', (req, res) => {
+    connection.query("DELETE FROM sohbet_lgs WHERE id=" + "'" + req.params.id + "'", (error, results, fields) => {
+        if (error) throw error;
+        res.send(results);
+    })
+})
+app.delete('/mesaj-yks/:id', (req, res) => {
+    connection.query("DELETE FROM sohbet_yks WHERE id=" + "'" + req.params.id + "'", (error, results, fields) => {
+        if (error) throw error;
+        res.send(results);
+    })
+})
+app.delete('/mesaj-msu/:id', (req, res) => {
+    connection.query("DELETE FROM sohbet_msu WHERE id=" + "'" + req.params.id + "'", (error, results, fields) => {
+        if (error) throw error;
+        res.send(results);
+    })
+})
+app.delete('/mesaj-dgs/:id', (req, res) => {
+    connection.query("DELETE FROM sohbet_dgs WHERE id=" + "'" + req.params.id + "'", (error, results, fields) => {
+        if (error) throw error;
+        res.send(results);
+    })
+})
 app.put('/not-guncelle/:id', (req, res) => {
     const { id, kullanici_id, baslik, icerik } = req.body;
     connection.query(
